@@ -69,6 +69,10 @@ static const vote_reference_t aVoteInfo[] = {
 	{ 0x1ff, "warmupdamage", G_Warmupfire_v,	"Warmup Damage",	" <0|1|2>^7\n  Specifies if players can inflict damage during warmup" },
 	{ 0x1ff, "balancedteams",G_BalancedTeams_v,	"Balanced Teams",	" <0|1>^7\n  Toggles team balance forcing" },
 	{ 0x1ff, "bots",		 G_Bots_v,			"Bots",				" <0|1>^7\n  Adds/Removes bots" },
+
+	// snax - Teamshooting vote
+	{ 0x1ff, "teamshooting", G_TeamShooting_v,	"TeamShooting",		"<0|1>^7\n  Toggles teamshooting" },
+
 	{ 0, 0, NULL, 0 }
 };
 
@@ -949,6 +953,25 @@ int G_BalancedTeams_v( gentity_t *ent, unsigned int dwVoteIndex, char *arg, char
 		G_voteSetOnOff("Balanced Teams", "g_balancedteams");
 		trap_Cvar_Set( "g_teamForceBalance", level.voteInfo.vote_value );
 		trap_Cvar_Set( "g_lms_teamForceBalance", level.voteInfo.vote_value );
+	}
+
+	return(G_OK);
+}
+
+// snax - Teamshooting
+int G_TeamShooting_v( gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *arg2, qboolean fRefereeCmd )
+{
+	// Vote request (vote is being initiated)
+	if(arg) {
+		return(G_voteProcessOnOff(ent, arg, arg2, fRefereeCmd,
+									!!(g_teamshooting.integer),
+									vote_allow_teamshooting.integer,
+									dwVoteIndex));
+	// Vote action (vote has passed)
+	} else {
+		// Balanced Teams (g_balancedteams)
+		G_voteSetOnOff("TeamShooting", "g_teamshooting");
+		trap_Cvar_Set( "g_teamshooting", level.voteInfo.vote_value );
 	}
 
 	return(G_OK);

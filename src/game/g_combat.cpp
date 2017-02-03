@@ -1039,6 +1039,10 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, const
 	if( targ->client && g_friendlyFire.integer && OnSameTeam(targ, attacker) ) {
 		knockback = 0;
 	}
+
+	if( !g_teamshooting.integer && OnSameTeam(targ, attacker) ) {
+		knockback = 0;
+	}
 	
 	// figure momentum add, even if the damage won't be taken
 	if ( knockback && targ->client ) {

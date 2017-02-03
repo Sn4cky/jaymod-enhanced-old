@@ -1821,6 +1821,13 @@ extern	vmCvar_t	sv_privatepassword;
 extern	vmCvar_t	g_gravity;
 extern	vmCvar_t	g_speed;
 extern	vmCvar_t	g_knockback;
+
+// snax - Cvar for teamshooting
+extern	vmCvar_t	g_teamshooting;
+
+// snax - Cvar for engitools for soldiers
+extern vmCvar_t		g_omniengi;
+
 extern	vmCvar_t	g_forcerespawn;
 extern	vmCvar_t	g_inactivity;
 extern	vmCvar_t	g_debugMove;
@@ -1958,6 +1965,9 @@ extern vmCvar_t		vote_percent;
 extern vmCvar_t		z_serverflags;
 extern vmCvar_t		g_letterbox;
 extern vmCvar_t		bot_enable;
+
+// snax - Teamshooting vote allowing cvar
+extern vmCvar_t		vote_allow_teamshooting;
 
 extern vmCvar_t		g_debugSkills;
 extern vmCvar_t		g_heavyWeaponRestriction;
@@ -2604,6 +2614,9 @@ int G_Warmupfire_v(gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *ar
 int G_Unreferee_v(gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *arg2, qboolean fRefereeCmd);
 int G_BalancedTeams_v(gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *arg2, qboolean fRefereeCmd);
 int G_Bots_v(gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *arg2, qboolean fRefereeCmd);
+
+// snax - TeamShooting vote
+int G_TeamShooting_v(gentity_t *ent, unsigned int dwVoteIndex, char *arg, char *arg2, qboolean fRefereeCmd);
 
 void G_LinkDebris( void );
 void G_LinkDamageParents( void );

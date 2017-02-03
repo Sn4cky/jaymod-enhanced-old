@@ -440,6 +440,9 @@
 #define	CV_SVF_GENERIC			131072
 #define CV_SVF_MATCHRESTART		262144
 #define CV_SVF_STARTMATCH		524288
+#define CV_SVF_BOTS				1048576
+// snax - voteFlag for teamshooting
+#define CV_SVF_TEAMSHOOTING		2097152
 
 // referee level
 #define RL_NONE					0

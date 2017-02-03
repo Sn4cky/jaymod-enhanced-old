@@ -41,6 +41,13 @@ vmCvar_t	g_speed;
 vmCvar_t	g_gravity;
 vmCvar_t	g_cheats;
 vmCvar_t	g_knockback;
+
+// snax - Teamshooting
+vmCvar_t	g_teamshooting;
+
+// snax - Engitools
+vmCvar_t	g_omniengi;
+
 vmCvar_t	g_forcerespawn;
 vmCvar_t	g_inactivity;
 vmCvar_t	g_debugMove;
@@ -144,6 +151,9 @@ vmCvar_t		vote_allow_bots;
 vmCvar_t		vote_limit;
 vmCvar_t		vote_percent;
 vmCvar_t		z_serverflags;
+
+// snax - Teamshooting vote allowing cvar
+vmCvar_t		vote_allow_teamshooting;
 
 
 vmCvar_t		g_covertopsChargeTime;
@@ -452,6 +462,12 @@ cvarTable_t		gameCvarTable[] = {
 	{ &g_speed, "g_speed", "320", 0, 0, qtrue, qtrue },
 	{ &g_gravity, "g_gravity", "800", 0, 0, qtrue, qtrue },
 	{ &g_knockback, "g_knockback", "1000", 0, 0, qtrue, qtrue },
+
+	// snax - Teamshooting
+	{ &g_teamshooting, "g_teamshooting", "0", 0, 0, qtrue, qtrue },
+
+	// snax - Engitools
+	{ &g_omniengi, "g_omniengi", "0", 0, 0, qtrue, qtrue },
 	
 	{ &g_needpass, "g_needpass", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },
 	{ &g_balancedteams, "g_balancedteams", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },
@@ -529,6 +545,9 @@ cvarTable_t		gameCvarTable[] = {
 	{ &vote_allow_bots,			"vote_allow_bots", "1", 0, 0, qfalse, qfalse },
 	{ &vote_limit,		"vote_limit", "5", 0, 0, qfalse, qfalse },
 	{ &vote_percent,	"vote_percent", "50", 0, 0, qfalse, qfalse },
+
+	// snax - Teamshooting vote allowing cvar
+	{ &vote_allow_teamshooting,	"vote_allow_teamshooting", "1", 0, 0, qfalse, qfalse },
 
 	// state vars
 	{ &z_serverflags, "z_serverflags", "0", 0, 0, qfalse, qfalse },
@@ -1605,7 +1624,9 @@ void G_UpdateCvars( void )
 						cv->vmCvar == &vote_allow_friendlyfire	|| cv->vmCvar == &vote_allow_timelimit		||
 						cv->vmCvar == &vote_allow_warmupdamage	|| 
 						cv->vmCvar == &vote_allow_balancedteams	|| cv->vmCvar == &vote_allow_muting			||
-						cv->vmCvar == &vote_allow_generic		|| cv->vmCvar == &vote_allow_bots
+						cv->vmCvar == &vote_allow_generic		|| cv->vmCvar == &vote_allow_bots			||
+						// snax - Update vote info for teamshooting vote
+						cv->vmCvar == &vote_allow_teamshooting
 					) {
 						fVoteFlags = qtrue;
 					} else {
@@ -3332,6 +3353,13 @@ void CheckVote( void ) {
 			int pcnt = (level.voteInfo.vote_fn == G_StartMatch_v) ? 75 : vote_percent.integer;
             int voted = level.voteInfo.voteYes + level.voteInfo.voteNo;
 
+			// snax - Teamshooting needs everyone to agree and it's enough to call it to have it disabled
+			if( level.voteInfo.vote_fn == G_TeamShooting_v && !g_teamshooting.integer ) {
+				pcnt = 99;
+			} else if( level.voteInfo.vote_fn == G_TeamShooting_v && g_teamshooting.integer ) {
+				pcnt = 1;
+			}
+
 			// Bounds check it
 			if( pcnt > 99 )
 				pcnt = 99;
@@ -3366,6 +3394,13 @@ void CheckVote( void ) {
 	} else if( !vote_voteBased.integer ) {
 		int pcnt = (level.voteInfo.vote_fn == G_StartMatch_v) ? 75 : vote_percent.integer;
 		int total;
+
+		// snax - Teamshooting needs everyone to agree and it's enough to call it to have it disabled
+		if( level.voteInfo.vote_fn == G_TeamShooting_v && !g_teamshooting.integer ) {
+			pcnt = 99;
+		} else if( level.voteInfo.vote_fn == G_TeamShooting_v && g_teamshooting.integer ) {
+			pcnt = 1;
+		}
 
 		if( pcnt > 99 ) {
 			pcnt = 99;

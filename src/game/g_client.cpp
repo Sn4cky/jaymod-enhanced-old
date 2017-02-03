@@ -1077,6 +1077,10 @@ qboolean _SetSoldierSpawnWeapons(gclient_t *client)
 	// Jaybird - override weapon select in panzerwar
 	if( cvars::bg_panzerWar.ivalue ) {
 		w = WP_PANZERFAUST;
+		if( g_omniengi.integer ) {
+			AddWeaponToPlayer( client, WP_DYNAMITE, 0, 1, qfalse );
+			AddWeaponToPlayer( client, WP_PLIERS, 0, 1, qfalse );
+		}
 	}
 
     // Add the primary weapon
@@ -2180,6 +2184,15 @@ ClientConnect( string& outmsg, int clientNum, qboolean firstTime, qboolean isBot
 	// Reset lose spree
 	ent->client->pers.losespreekills = 0;
 
+	// AndyStutz - resetting session kills/deaths between team
+	// switches or map changes.  We still use session variable
+	// deathsforpanzerreload for tracking fast panzer reloads as
+	// we don't reset this between team switches or map loads
+	// snax - moved from ClientBegin to ClientConnect to avoid score reset between teamswitches
+	client->sess.kills = 0;
+	client->sess.deaths = 0;
+	// End AndyStutz
+
 	// count current clients and rank for scoreboard
 	CalculateRanks();
 
@@ -2263,14 +2276,6 @@ void ClientBegin( int clientNum )
 	//Omni-bot
 	client->sess.botSuicide = qfalse;
 	client->sess.botPush = (ent->r.svFlags & SVF_BOT) ? qtrue : qfalse;
-
-	// AndyStutz - resetting session kills/deaths between team
-	// switches or map changes.  We still use session variable
-	// deathsforpanzerreload for tracking fast panzer reloads as
-	// we don't reset this between team switches or map loads
-	client->sess.kills = 0;
-	client->sess.deaths = 0;
-	// End AndyStutz
 
 	// Jaybird - shrubbot shortcuts
     Q_strncpyz(client->pers.lastammo, "nobody", sizeof(client->pers.lastammo));

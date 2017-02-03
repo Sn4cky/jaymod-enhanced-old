@@ -5111,7 +5111,9 @@ const voteType_t voteToggles[] =
 		{ "vote_allow_generic",			CV_SVF_GENERIC },
 		{ "vote_allow_matchrestart",	CV_SVF_MATCHRESTART },
 		{ "vote_allow_startmatch",		CV_SVF_STARTMATCH },
-		{ "vote_allow_bots",			CV_SVF_BOTS }
+		{ "vote_allow_bots",			CV_SVF_BOTS },
+		// snax - voteToggle for teamshooting
+		{ "vote_allow_teamshooting",	CV_SVF_TEAMSHOOTING }
 	};
 
 int numVotesAvailable = sizeof(voteToggles) / sizeof(voteType_t);
