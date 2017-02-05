@@ -1828,6 +1828,9 @@ extern	vmCvar_t	g_teamshooting;
 // snax - Cvar for engitools for soldiers
 extern vmCvar_t		g_omniengi;
 
+// snax - Cvar for pants on killing spree
+extern vmCvar_t		g_pantsy;
+
 extern	vmCvar_t	g_forcerespawn;
 extern	vmCvar_t	g_inactivity;
 extern	vmCvar_t	g_debugMove;

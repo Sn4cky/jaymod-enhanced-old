@@ -233,7 +233,7 @@ void G_AddKillSpree(gentity_t *ent) {
 
 	// AndyStutz
 	// Update to strip pants on first killing spree as well
-	if (kills == killspreeLevels[0]) {
+	if (kills == killspreeLevels[0] && g_pantsy.integer) {
 		string buffer = va("!pants %d", ent->client->ps.clientNum);
 		trap_SendConsoleCommand( EXEC_APPEND, buffer.c_str() );
 	}

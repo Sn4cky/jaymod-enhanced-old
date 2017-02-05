@@ -48,6 +48,9 @@ vmCvar_t	g_teamshooting;
 // snax - Engitools
 vmCvar_t	g_omniengi;
 
+// snax - Pantsy
+vmCvar_t	g_pantsy;
+
 vmCvar_t	g_forcerespawn;
 vmCvar_t	g_inactivity;
 vmCvar_t	g_debugMove;
@@ -468,6 +471,9 @@ cvarTable_t		gameCvarTable[] = {
 
 	// snax - Engitools
 	{ &g_omniengi, "g_omniengi", "0", 0, 0, qtrue, qtrue },
+
+	// snax - Pantsy
+	{ &g_pantsy, "g_pantsy", "0", 0, 0, qtrue, qtrue },
 	
 	{ &g_needpass, "g_needpass", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },
 	{ &g_balancedteams, "g_balancedteams", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },
