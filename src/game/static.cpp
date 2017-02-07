@@ -201,6 +201,7 @@ namespace builtins {
     Fling        fling;
     Flinga       flinga;
     Glow         glow;
+	Heal		 heal;	// snax
     Help         help;
     Kick         kick;
     Launch       launch;

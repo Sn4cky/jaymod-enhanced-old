@@ -4604,49 +4604,52 @@ void FireWeapon( gentity_t *ent ) {
 		break;
 	case WP_PANZERFAUST:
 
-		// AndyStutz - Changing weapon ready time to depend on kills and deaths
-		iCount = 2250; // starts out at one shot every xxxx milliseconds
-		iDeathsMinusKills = 1; // Default to 1 in case kills is more than deaths
+		// snax - Adding a cvar to control the state of fast fire
+		if( g_fastpanzer.integer ) {
+			// AndyStutz - Changing weapon ready time to depend on kills and deaths
+			iCount = 2250; // starts out at one shot every xxxx milliseconds
+			iDeathsMinusKills = 1; // Default to 1 in case kills is more than deaths
 
-		//G_LogPrintf( "Deaths: %d, Kills: %d\n", ent->client->sess.deaths, ent->client->sess.kills);
-		// If deaths is greater than kills
-		//if (ent->client->sess.deathsforpanzerreload > ent->client->sess.kills)
-			//iDeathsMinusKills = ent->client->sess.deathsforpanzerreload - ent->client->sess.kills;
+			//G_LogPrintf( "Deaths: %d, Kills: %d\n", ent->client->sess.deaths, ent->client->sess.kills);
+			// If deaths is greater than kills
+			//if (ent->client->sess.deathsforpanzerreload > ent->client->sess.kills)
+				//iDeathsMinusKills = ent->client->sess.deathsforpanzerreload - ent->client->sess.kills;
 
-		// This simply makes panzer reload faster with each death, regardless
-		// of how many kills you have
-		// Changing to simply move the delay down 50 milliseconds with each death until you
-		// get to 50.
-		/*
-		if ((ent->client->sess.deathsforpanzerreload * 50) < iCount)
-			ent->client->ps.weaponTime=(int)(iCount - (ent->client->sess.deathsforpanzerreload * 50));
-		else
-			ent->client->ps.weaponTime=50;
-		*/
+			// This simply makes panzer reload faster with each death, regardless
+			// of how many kills you have
+			// Changing to simply move the delay down 50 milliseconds with each death until you
+			// get to 50.
+			/*
+			if ((ent->client->sess.deathsforpanzerreload * 50) < iCount)
+				ent->client->ps.weaponTime=(int)(iCount - (ent->client->sess.deathsforpanzerreload * 50));
+			else
+				ent->client->ps.weaponTime=50;
+			*/
 
-		// Changing to make first 5 deaths decrease by 250 milliseconds to see a more significant
-		// change early.  Then we'll start doing 50 milliseconds at a time after that...
-		if (ent->client->sess.deathsforpanzerreload < 5) {
-			iFinalDelay = iCount - (int)(ent->client->sess.deathsforpanzerreload * 250);
-		}
-		else {
-			// Take 1250 for first 5 deaths and then another 50 for each additional death beyond that
-			// If final number < 25, set to 25 milliseconds as final.
-			iFinalDelay = iCount - (int)(1250 + ((ent->client->sess.deathsforpanzerreload - 5) * 50));
-		}
+			// Changing to make first 5 deaths decrease by 250 milliseconds to see a more significant
+			// change early.  Then we'll start doing 50 milliseconds at a time after that...
+			if (ent->client->sess.deathsforpanzerreload < 5) {
+				iFinalDelay = iCount - (int)(ent->client->sess.deathsforpanzerreload * 250);
+			}
+			else {
+				// Take 1250 for first 5 deaths and then another 50 for each additional death beyond that
+				// If final number < 25, set to 25 milliseconds as final.
+				iFinalDelay = iCount - (int)(1250 + ((ent->client->sess.deathsforpanzerreload - 5) * 50));
+			}
 
-		if (iFinalDelay < 25)
-			iFinalDelay = 25;
+			if (iFinalDelay < 25)
+				iFinalDelay = 25;
 
-		ent->client->ps.weaponTime = iFinalDelay;
+			ent->client->ps.weaponTime = iFinalDelay;
 			
-		//ent->client->ps.weaponTime=(int)(iCount / (ent->client->sess.deathsforpanzerreload+1));
+			//ent->client->ps.weaponTime=(int)(iCount / (ent->client->sess.deathsforpanzerreload+1));
 
-		// This makes panzer reload faster only if your death count is higher than
-		// your kill count
-		//ent->client->ps.weaponTime=(int)(iCount / iDeathsMinusKills);
+			// This makes panzer reload faster only if your death count is higher than
+			// your kill count
+			//ent->client->ps.weaponTime=(int)(iCount / iDeathsMinusKills);
 
-		// End AndyStutz
+			// End AndyStutz
+		}
 
 		if( level.time - ent->client->ps.classWeaponTime > level.soldierChargeTime[ent->client->sess.sessionTeam-1] ) {
 			ent->client->ps.classWeaponTime = level.time - level.soldierChargeTime[ent->client->sess.sessionTeam-1];
@@ -4658,6 +4661,23 @@ void FireWeapon( gentity_t *ent ) {
 			ent->client->ps.classWeaponTime += int( .66f * level.soldierChargeTime[ent->client->sess.sessionTeam-1] );
 		else
 			ent->client->ps.classWeaponTime = level.time;
+
+		// snax - Killstreak settings
+		if (g_killstreaks.integer) {
+			if (ent->client->pers.killspreekills >= 5 && ent->client->pers.killspreekills < 10 && ent->client->pers.killstreaktime > level.time - 8000) {
+				ent->client->ps.weaponTime = 1250;
+			} else if (ent->client->pers.killspreekills >= 10 && ent->client->pers.killspreekills < 15 && ent->client->pers.killstreaktime > level.time - 8000) {
+				ent->client->ps.weaponTime = 650;
+			} else if (ent->client->pers.killspreekills >= 15 && ent->client->pers.killspreekills < 20 && ent->client->pers.killstreaktime > level.time - 8000) {
+				ent->client->ps.weaponTime = 450;
+			} else if (ent->client->pers.killspreekills >= 20 && ent->client->pers.killspreekills < 25 && ent->client->pers.killstreaktime > level.time - 8000) {
+				ent->client->ps.weaponTime = 250;
+			} else if (ent->client->pers.killspreekills >= 25 && ent->client->pers.killstreaktime > level.time - 8000) {
+				ent->client->ps.weaponTime = 25;
+			} else {
+				ent->client->ps.weaponTime = 2250;
+			}
+		}
 
 		pFiredShot = Weapon_Panzerfaust_Fire(ent);
 		if( ent->client ) {

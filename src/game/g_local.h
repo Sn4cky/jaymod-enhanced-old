@@ -811,6 +811,10 @@ typedef struct {
 	// jaybird
 	int killspreekills;
 	int losespreekills;
+
+	// snax - Killstreak time
+	int killstreaktime;
+
 	int multikills;
 	int multikilltime;
 	int pmblock;
@@ -1830,6 +1834,12 @@ extern vmCvar_t		g_omniengi;
 
 // snax - Cvar for pants on killing spree
 extern vmCvar_t		g_pantsy;
+
+// snax - Cvar for toggling killstreaks
+extern vmCvar_t		g_killstreaks;
+
+// snax - Cvar for toggling fastpanzer
+extern vmCvar_t		g_fastpanzer;
 
 extern	vmCvar_t	g_forcerespawn;
 extern	vmCvar_t	g_inactivity;

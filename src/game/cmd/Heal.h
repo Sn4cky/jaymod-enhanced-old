@@ -1,0 +1,18 @@
+#ifndef GAME_CMD_HEAL_H
+#define GAME_CMD_HEAL_H
+
+///////////////////////////////////////////////////////////////////////////////
+
+class Heal : public AbstractBuiltin
+{
+protected:
+    PostAction doExecute( Context& );
+
+public:
+    Heal();
+    ~Heal();
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+#endif // GAME_CMD_HEAL_H

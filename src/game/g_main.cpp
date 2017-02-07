@@ -51,6 +51,12 @@ vmCvar_t	g_omniengi;
 // snax - Pantsy
 vmCvar_t	g_pantsy;
 
+// snax - Killstreaks
+vmCvar_t	g_killstreaks;
+
+// snax - Fastpanzer
+vmCvar_t	g_fastpanzer;
+
 vmCvar_t	g_forcerespawn;
 vmCvar_t	g_inactivity;
 vmCvar_t	g_debugMove;
@@ -474,6 +480,12 @@ cvarTable_t		gameCvarTable[] = {
 
 	// snax - Pantsy
 	{ &g_pantsy, "g_pantsy", "0", 0, 0, qtrue, qtrue },
+
+	// snax - Killstreaks
+	{ &g_killstreaks, "g_killstreaks", "0", 0, 0, qtrue, qtrue },
+
+	// snax - Fastpanzer
+	{ &g_fastpanzer, "g_fastpanzer", "0", 0, 0, qtrue, qtrue },
 	
 	{ &g_needpass, "g_needpass", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },
 	{ &g_balancedteams, "g_balancedteams", "0", CVAR_SERVERINFO | CVAR_ROM, 0, qtrue },

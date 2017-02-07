@@ -36,6 +36,7 @@ private:
 #include <game/cmd/Fling.h>
 #include <game/cmd/Flinga.h>
 #include <game/cmd/Glow.h>
+#include <game/cmd/Heal.h>
 #include <game/cmd/Help.h>
 #include <game/cmd/Kick.h>
 #include <game/cmd/Launch.h>
@@ -114,6 +115,7 @@ namespace builtins {
     extern Fling        fling;
     extern Flinga       flinga;
     extern Glow         glow;
+	extern Heal			heal;
     extern Help         help;
     extern Kick         kick;
     extern Launch       launch;
