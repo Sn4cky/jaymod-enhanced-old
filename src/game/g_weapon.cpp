@@ -4663,16 +4663,16 @@ void FireWeapon( gentity_t *ent ) {
 			ent->client->ps.classWeaponTime = level.time;
 
 		// snax - Killstreak settings
-		if (g_killstreaks.integer) {
-			if (ent->client->pers.killspreekills >= 5 && ent->client->pers.killspreekills < 10 && ent->client->pers.killstreaktime > level.time - 8000) {
+		if (g_killstreaks.integer && !g_fastpanzer.integer) {
+			if (ent->client->pers.killspreekills >= 5 && ent->client->pers.killspreekills < 10 && ent->client->pers.killstreaktime > level.time - 10000) {
 				ent->client->ps.weaponTime = 1250;
-			} else if (ent->client->pers.killspreekills >= 10 && ent->client->pers.killspreekills < 15 && ent->client->pers.killstreaktime > level.time - 8000) {
+			} else if (ent->client->pers.killspreekills >= 10 && ent->client->pers.killspreekills < 15 && ent->client->pers.killstreaktime > level.time - 10000) {
 				ent->client->ps.weaponTime = 650;
-			} else if (ent->client->pers.killspreekills >= 15 && ent->client->pers.killspreekills < 20 && ent->client->pers.killstreaktime > level.time - 8000) {
+			} else if (ent->client->pers.killspreekills >= 15 && ent->client->pers.killspreekills < 20 && ent->client->pers.killstreaktime > level.time - 10000) {
 				ent->client->ps.weaponTime = 450;
-			} else if (ent->client->pers.killspreekills >= 20 && ent->client->pers.killspreekills < 25 && ent->client->pers.killstreaktime > level.time - 8000) {
+			} else if (ent->client->pers.killspreekills >= 20 && ent->client->pers.killspreekills < 25 && ent->client->pers.killstreaktime > level.time - 10000) {
 				ent->client->ps.weaponTime = 250;
-			} else if (ent->client->pers.killspreekills >= 25 && ent->client->pers.killstreaktime > level.time - 8000) {
+			} else if (ent->client->pers.killspreekills >= 25 && ent->client->pers.killstreaktime > level.time - 10000) {
 				ent->client->ps.weaponTime = 25;
 			} else {
 				ent->client->ps.weaponTime = 2250;

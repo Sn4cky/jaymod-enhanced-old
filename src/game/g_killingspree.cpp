@@ -227,9 +227,10 @@ void G_AddKillSpree(gentity_t *ent) {
 	// See if an announcement needs to be made
 	for (i = 0; i < KS_NUMLEVELS; i++) {
 		if (kills == killspreeLevels[i]) {
-			if (g_killstreaks.integer) {
+			if (g_killstreaks.integer && !g_fastpanzer.integer) {
 				ent->client->pers.killstreaktime = level.time;
 				ent->health += kills * 2;
+				trap_SendServerCommand( ent->client->ps.clientNum, "cpm \"^1[^9KILLSTREAK STARTED^1]\n\"");
 			}
 			G_SendKillSpree(ent, (ks_t)i, kills);
 		}
